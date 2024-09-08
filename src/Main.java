@@ -8,5 +8,7 @@ public class Main {
 
         board.printBoard();
 
+        board.play();
+
     }
 }
