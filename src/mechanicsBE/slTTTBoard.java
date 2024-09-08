@@ -1,0 +1,82 @@
+package mechanicsBE;
+
+import java.util.Scanner;
+
+public class slTTTBoard {
+    private String[][] grid = new String[3][3];
+
+    public void printGrid() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void play() {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            if (isGridFull()) {
+                System.out.println("The grid is full. Game over.");
+                break;
+            }
+            System.out.println("Enter the row and column (0-2) separated by a space (or 'q' to quit): ");
+            String input = sc.nextLine().trim();
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("Quitting the game.");
+                break;
+            }
+
+            String[] parts = input.split("\\s+");
+            if (parts.length != 2) {
+                System.out.println("Invalid input. Please enter two numbers separated by a space.");
+                continue;
+            }
+
+            int row, col;
+            try {
+                row = Integer.parseInt(parts[0]);
+                col = Integer.parseInt(parts[1]);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter two numbers.");
+                continue;
+            }
+
+            if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length) {
+                System.out.println("Position out of bounds. Please enter numbers between 0 and 2.");
+                continue;
+            }
+
+            if (!grid[row][col].equals("-")) {
+                System.out.println("This position is already occupied. Please try again.");
+                continue;
+            }
+
+            grid[row][col] = "P";
+            System.out.println("Position updated at: (" + row + ", " + col + ")");
+            printGrid();
+        }
+        sc.close();
+    }
+
+    public void printBoard() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                grid[i][j] = "-";
+            }
+        }
+        printGrid();
+    }
+
+    private boolean isGridFull() {
+        for (String[] row : grid) {
+            for (String cell : row) {
+                if (cell.equals("-")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
