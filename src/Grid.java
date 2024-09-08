@@ -3,16 +3,7 @@ import java.util.Scanner;
 public class Grid {
     public String[][] grid = new String[3][3];
 
-    public void printBoard() {
-
-
-        //storing "-" in grid
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                grid[i][j] = "-";
-            }
-        }
-
+    public void printGrid() {
         //printing grid
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -20,17 +11,6 @@ public class Grid {
             }
             System.out.println(); //move to the next line
         }
-
-    }
-    public boolean isGridFull() {
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                if (grid[i][j].equals("-")) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     public void makeMove() {
@@ -67,11 +47,44 @@ public class Grid {
 
             grid[position[0]][position[2]] = "P";
             System.out.println("Position updated at: (" + position[0] + ", " + position[2] + ")");
-
+            printGrid();
         }
         sc.close();
     }
+
+    public void printBoard() {
+
+
+        //storing "-" in grid
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                grid[i][j] = "-";
+            }
+        }
+
+        //printing grid
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println(); //move to the next line
+        }
+
+    }
+
+    public boolean isGridFull() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j].equals("-")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public void play() {
         makeMove();
+        printGrid();
     }
 }
