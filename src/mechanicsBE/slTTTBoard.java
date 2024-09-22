@@ -114,4 +114,22 @@ public class slTTTBoard {
         }
         return true;
     }
+
+    // Display the current board state
+    public void displayBoard() {
+        System.out.println("Current Board:");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == ' ') {
+                    System.out.print('-');
+                } else {
+                    System.out.print(board[i][j]);
+                }
+                if (j < 2) {
+                    System.out.print(" ");  // Print space between columns
+                }
+            }
+            System.out.println();
+        }
+    }
 }
