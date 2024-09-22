@@ -1,9 +1,11 @@
 package mechanicsBE;
 
 import java.util.Scanner;
+import java.util.Random;
 
 public class slTTTBoard {
     private String[][] grid = new String[3][3];
+    private String machine = "0";
 
     public void printGrid() {
         for (int i = 0; i < grid.length; i++) {
@@ -21,6 +23,7 @@ public class slTTTBoard {
                 System.out.println("The grid is full. Game over.");
                 break;
             }
+
             System.out.println("Enter the row and column (0-2) separated by a space (or 'q' to quit): ");
             String input = sc.nextLine().trim();
             if (input.equalsIgnoreCase("q")) {
@@ -60,6 +63,12 @@ public class slTTTBoard {
         sc.close();
     }
 
+    public void machineMove() {
+        Random ran = new Random();
+        int row = ran.nextInt(3);
+        int col = ran.nextInt(3);
+        grid[row][col] = machine;
+    }
     public void printBoard() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
