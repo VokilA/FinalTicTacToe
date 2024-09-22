@@ -13,11 +13,10 @@ public class slTTTBoard {
 
     private char[][] board;
     private char player = 'X';
-    private char machineChar = 'O';
+    private char machine = 'O';
     private int moveCount;
 
     private String[][] grid = new String[3][3];
-    private String machine = "0";
 
     // Constructor initializes the board
     public slTTTBoard() {
@@ -88,13 +87,6 @@ public class slTTTBoard {
         sc.close();
     }
 
-    public void machineMove() {
-        Random ran = new Random();
-        int row = ran.nextInt(3);
-        int col = ran.nextInt(3);
-        grid[row][col] = machine;
-    }
-
     public void printBoard() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -131,5 +123,37 @@ public class slTTTBoard {
             }
             System.out.println();
         }
+    }
+
+    // player move
+    public boolean playerMove(int row, int col) {
+        if (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == ' ') {
+            board[row][col] = player;
+            moveCount++;
+            return true;
+        }
+        return false;
+    }
+
+    // Machine move: Greedy algorithm or random if first move
+    public void machineMove() {
+        if (moveCount == 0) {
+            Random ran = new Random();
+            int row = ran.nextInt(3);
+            int col = ran.nextInt(3);
+            board[row][col] = machine;
+        } else {
+            // Basic greedy algorithm: first available spot
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (board[i][j] == ' ') {
+                        board[i][j] = machine;
+                        moveCount++;
+                        return;
+                    }
+                }
+            }
+        }
+        moveCount++;
     }
 }
