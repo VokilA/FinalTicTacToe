@@ -156,4 +156,31 @@ public class slTTTBoard {
         }
         moveCount++;
     }
+
+    // Check for win conditions
+    public int checkGameState() {
+        // Check rows and columns for winner
+        for (int i = 0; i < 3; i++) {
+            if (board[i][0] == player && board[i][1] == player && board[i][2] == player) return GAME_PLAYER;
+            if (board[0][i] == player && board[1][i] == player && board[2][i] == player) return GAME_PLAYER;
+            if (board[i][0] == machine && board[i][1] == machine && board[i][2] == machine) return GAME_MACHINE;
+            if (board[0][i] == machine && board[1][i] == machine && board[2][i] == machine) return GAME_MACHINE;
+        }
+
+        // Check diagonals for winner
+        if ((board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
+                (board[0][2] == player && board[1][1] == player && board[2][0] == player)) {
+            return GAME_PLAYER;
+        }
+        if ((board[0][0] == machine && board[1][1] == machine && board[2][2] == machine) ||
+                (board[0][2] == machine && board[1][1] == machine && board[2][0] == machine)) {
+            return GAME_MACHINE;
+        }
+
+        // Check for draw
+        if (moveCount == 9) return GAME_DRAW;
+
+        // Continue the game
+        return GAME_CONTINUE;
+    }
 }
