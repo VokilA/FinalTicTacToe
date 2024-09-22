@@ -1,10 +1,12 @@
+package csc133;
+
+import mechanicsBE.slTTTBoard;
 import java.util.Scanner;
 
 public class gameFE {
     private slTTTBoard board;
 
-    public gameFE(slTTTBoard board)
-    {
+    public gameFE(slTTTBoard board) {
         this.board = board;
     }
 

@@ -1,3 +1,5 @@
+package mechanicsBE;
+
 import java.util.Random;
 
 public class slTTTBoard {
