@@ -18,6 +18,10 @@ public class gameFE {
             System.out.println("Welcome to Tic-Tac-Toe! Enter 'q' to quit at any time.");
             System.out.print("Do you want to go first? (y/n): ");
             String input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("q")) {
+                printExitMessage(slTTTBoard.GAME_QUIT);
+                return;
+            }
             boolean playerFirst = input.equals("y");
 
             if (!playerFirst) {
@@ -29,8 +33,10 @@ public class gameFE {
             if (exit_status != slTTTBoard.GAME_QUIT) {
                 System.out.print("Do you want to play again? (y/n): ");
                 input = scanner.nextLine().trim().toLowerCase();
-                playAgain = input.equals("y");
-                if (playAgain) {
+                if (input.equals("q") || !input.equals("y")) {
+                    printExitMessage(slTTTBoard.GAME_QUIT);
+                    playAgain = false;
+                } else {
                     board.resetBoard();
                 }
             } else {
@@ -50,15 +56,17 @@ public class gameFE {
                 exit_status = board.checkGameState();
                 if (exit_status != slTTTBoard.GAME_CONTINUE) break;
 
-                board.machineMove(false);
-                exit_status = board.checkGameState();
-                if (exit_status != slTTTBoard.GAME_CONTINUE) break;
+                if (board.getMoveCount() < 9) {
+                    board.machineMove(false);
+                    exit_status = board.checkGameState();
+                    if (exit_status != slTTTBoard.GAME_CONTINUE) break;
+                }
             } else {
                 if (!getPlayerMove()) return slTTTBoard.GAME_QUIT;
                 exit_status = board.checkGameState();
                 if (exit_status != slTTTBoard.GAME_CONTINUE) break;
 
-                if (board.checkGameState() == slTTTBoard.GAME_CONTINUE) {
+                if (board.getMoveCount() < 9 && board.checkGameState() == slTTTBoard.GAME_CONTINUE) {
                     board.machineMove(false);
                     exit_status = board.checkGameState();
                     if (exit_status != slTTTBoard.GAME_CONTINUE) break;
