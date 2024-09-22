@@ -4,8 +4,33 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class slTTTBoard {
+    // Variables to represent game states
+    public int GAME_QUIT = 0;
+    public int GAME_PLAYER = 1;
+    public int GAME_MACHINE = 2;
+    public int GAME_DRAW = 3;
+    public int GAME_CONTINUE = 4;
+
+    private char[][] board;
+    private char player = 'X';
+    private char machineChar = 'O';
+    private int moveCount;
+
     private String[][] grid = new String[3][3];
     private String machine = "0";
+
+    // Constructor initializes the board
+    public slTTTBoard() {
+        board = new char[3][3];
+        moveCount = 0;
+        // Fill the board with spaces
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                board[i][j] = ' ';
+            }
+        }
+        printBoard();
+    }
 
     public void printGrid() {
         for (int i = 0; i < grid.length; i++) {
@@ -69,6 +94,7 @@ public class slTTTBoard {
         int col = ran.nextInt(3);
         grid[row][col] = machine;
     }
+
     public void printBoard() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
