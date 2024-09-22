@@ -4,21 +4,23 @@ import java.util.Random;
 
 public class slTTTBoard {
     // Variables to represent game states
-    public int GAME_QUIT = 0;
-    public int GAME_PLAYER = 1;
-    public int GAME_MACHINE = 2;
-    public int GAME_DRAW = 3;
-    public int GAME_CONTINUE = 4;
+    public static final int GAME_QUIT = 0;
+    public static final int GAME_PLAYER = 1;
+    public static final int GAME_MACHINE = 2;
+    public static final int GAME_DRAW = 3;
+    public static final int GAME_CONTINUE = 4;
 
     private char[][] board;
     private char player = 'X';
     private char machine = 'O';
     private int moveCount;
+    private Random random;
 
     // Constructor initializes the board
     public slTTTBoard() {
         board = new char[3][3];
         moveCount = 0;
+        random = new Random();
         // Fill the board with spaces
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -56,11 +58,13 @@ public class slTTTBoard {
     }
 
     // Machine move: Greedy algorithm or random if first move
-    public void machineMove() {
-        if (moveCount == 0) {
-            Random ran = new Random();
-            int row = ran.nextInt(3);
-            int col = ran.nextInt(3);
+    public void machineMove(boolean isFirstMove) {
+        if (isFirstMove || moveCount == 0) {
+            int row, col;
+            do {
+                row = random.nextInt(3);
+                col = random.nextInt(3);
+            } while (board[row][col] != ' ');
             board[row][col] = machine;
         } else {
             // Basic greedy algorithm: first available spot
@@ -81,20 +85,18 @@ public class slTTTBoard {
     public int checkGameState() {
         // Check rows and columns for winner
         for (int i = 0; i < 3; i++) {
-            if (board[i][0] == player && board[i][1] == player && board[i][2] == player) return GAME_PLAYER;
-            if (board[0][i] == player && board[1][i] == player && board[2][i] == player) return GAME_PLAYER;
-            if (board[i][0] == machine && board[i][1] == machine && board[i][2] == machine) return GAME_MACHINE;
-            if (board[0][i] == machine && board[1][i] == machine && board[2][i] == machine) return GAME_MACHINE;
+            if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != ' ') {
+                return (board[i][0] == player) ? GAME_PLAYER : GAME_MACHINE;
+            }
+            if (board[0][i] == board[1][i] && board[1][i] == board[2][i] && board[0][i] != ' ') {
+                return (board[0][i] == player) ? GAME_PLAYER : GAME_MACHINE;
+            }
         }
 
         // Check diagonals for winner
-        if ((board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
-                (board[0][2] == player && board[1][1] == player && board[2][0] == player)) {
-            return GAME_PLAYER;
-        }
-        if ((board[0][0] == machine && board[1][1] == machine && board[2][2] == machine) ||
-                (board[0][2] == machine && board[1][1] == machine && board[2][0] == machine)) {
-            return GAME_MACHINE;
+        if ((board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != ' ') ||
+                (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != ' ')) {
+            return (board[1][1] == player) ? GAME_PLAYER : GAME_MACHINE;
         }
 
         // Check for draw
@@ -102,5 +104,15 @@ public class slTTTBoard {
 
         // Continue the game
         return GAME_CONTINUE;
+    }
+
+    // Reset the board for a new game
+    public void resetBoard() {
+        moveCount = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                board[i][j] = ' ';
+            }
+        }
     }
 }
